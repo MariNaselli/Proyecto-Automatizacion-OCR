@@ -1,10 +1,14 @@
 import streamlit as st
 import pytesseract
 from PIL import Image
+import shutil
 
 st.set_page_config(page_title="OCR Pro", page_icon="📝")
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+tesseract_path = shutil.which("tesseract")
+
+if not tesseract_path:
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 st.title("Transcriptor Automático")
 st.write("Convierte el contenido de tus imágenes en texto para descargar.")
