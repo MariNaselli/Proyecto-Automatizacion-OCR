@@ -38,7 +38,7 @@ if archivo is not None:
                 
                 st.download_button(
                     label="⬇️ Descargar Texto",
-                    data=texto,
+                    data=b'\xef\xbb\xbf' + texto.encode('utf-8'),
                     file_name="resultado_ocr.txt",
                     mime="text/plain"
                 )
