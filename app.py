@@ -2,19 +2,40 @@ import streamlit as st
 import pytesseract
 from PIL import Image
 
-# Usamos la ruta directa para evitar el error de "tesseract no se reconoce"
+st.set_page_config(page_title="OCR Pro", page_icon="📝")
+
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-st.title("Mi Primer Automatizador OCR")
+st.title("Transcriptor Automático")
+st.write("Convierte el contenido de tus imágenes en texto para descargar.")
 
-archivo = st.file_uploader("Subí una imagen", type=["jpg", "png", "jpeg"])
+archivo = st.file_uploader("Selecciona una imagen (JPG, PNG)", type=["jpg", "png", "jpeg"])
 
 if archivo is not None:
     img = Image.open(archivo)
-    st.image(img, caption="Imagen cargada")
     
-    # Extraer el texto
-    with st.spinner('Leyendo...'):
-        texto = pytesseract.image_to_string(img, lang='spa')
-        st.write("### Texto detectado:")
-        st.success(texto)
+    st.image(img, use_container_width=True, caption="Imagen cargada")
+    
+    st.divider()
+    
+    with st.spinner('Procesando...'):
+        try:
+            
+            texto = pytesseract.image_to_string(img, lang='spa+eng')
+            
+            if texto.strip():
+                
+                st.text_area("Texto Detectado:", texto, height=400)
+                
+                st.download_button(
+                    label="⬇️ Descargar Texto",
+                    data=texto,
+                    file_name="resultado_ocr.txt",
+                    mime="text/plain"
+                )
+            else:
+                st.warning("No se encontró texto en la imagen.")
+        except Exception as e:
+            st.error(f"Error técnico: {e}")
+            
+
