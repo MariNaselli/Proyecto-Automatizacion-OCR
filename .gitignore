@@ -1,0 +1,18 @@
+# Entorno virtual (Lo más importante)
+venv/
+.venv/
+env/
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Carpetas de configuración de Streamlit y VS Code
+.streamlit/
+.vscode/
+
+# Archivos del sistema
+Thumbs.db
+desktop.ini
