@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pytesseract
 from PIL import Image
@@ -5,10 +6,14 @@ import shutil
 
 st.set_page_config(page_title="OCR Pro", page_icon="📝")
 
-tesseract_path = shutil.which("tesseract")
-
-if not tesseract_path:
+if shutil.which("tesseract"):
+    # Si estamos en la nube (Linux), ya está en el sistema
+    pass 
+elif os.path.exists(r'C:\Program Files\Tesseract-OCR\tesseract.exe'):
+    # Si estamos en local
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+else:
+    st.error("No se encontró el motor Tesseract. Verificá la instalación.")
 
 st.title("Transcriptor Automático")
 st.write("Convierte el contenido de tus imágenes en texto para descargar.")
